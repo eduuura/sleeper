@@ -26,8 +26,20 @@ def register(request):
 def diary(request):
     return HttpResponse("Дневник сна")
 
+@login_required
 def add_record(request):
-    return HttpResponse("Добавление записи")
+    """Добавление записи о сне"""
+    if request.method == 'POST':
+        form = SleepDiaryForm(request.POST)
+        if form.is_valid():
+            record = form.save(commit=False)
+            record.user = request.user
+            record.save()
+            messages.success(request, 'Запись о сне добавлена!')
+            return redirect('main:diary')
+    else:
+        form = SleepDiaryForm()
+    return render(request, 'main/add_record.html', {'form': form})
 
 def edit_record(request, pk):
     return HttpResponse(f"Редактирование записи {pk}")
@@ -40,6 +52,7 @@ def analytics(request):
 
 
 class CustomLoginView(LoginView):
+    """Вход в систему"""
     template_name = 'main/login.html'
     redirect_authenticated_user = True
 

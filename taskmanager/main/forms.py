@@ -6,7 +6,7 @@ from .models import SleepDiary, UserProfile
 
 
 class UserRegisterForm(UserCreationForm):
-    """Форма регистрации пользователя с кастомной валидацией"""
+    """Форма регистрации пользователя"""
     email = forms.EmailField(required=True, label='Email')
     city = forms.CharField(max_length=100, required=True, label='Город')
     birth_date = forms.DateField(
@@ -20,16 +20,13 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'city', 'birth_date', 'password1', 'password2']
 
     def clean_username(self):
-        """Убираем ограничения на символы в имени пользователя"""
         username = self.cleaned_data.get('username')
         if not username:
             raise ValidationError('Это поле обязательно.')
-        # Проверяем только на пустоту и длину
         if len(username) < 3:
             raise ValidationError('Имя пользователя должно содержать минимум 3 символа.')
         if len(username) > 150:
             raise ValidationError('Имя пользователя не должно превышать 150 символов.')
-        # Проверяем, что пользователь с таким именем не существует
         if User.objects.filter(username=username).exists():
             raise ValidationError('Пользователь с таким именем уже существует.')
         return username
