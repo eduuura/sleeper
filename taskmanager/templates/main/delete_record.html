@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Удалить запись{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2><i class="fas fa-trash text-danger"></i> Удалить запись</h2>
+                <p class="lead mt-3">Вы уверены, что хотите удалить запись о сне за <strong>{{ record.date|date:"d.m.Y" }}</strong>?</p>
+                <p class="text-muted">
+                    <i class="fas fa-clock"></i> {{ record.bedtime|time:"H:i" }} — {{ record.wake_time|time:"H:i" }}
+                    <br>
+                    <i class="fas fa-star"></i> {{ record.get_sleep_quality_display }}
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Да, удалить</button>
+                    <a href="{% url 'main:diary' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
