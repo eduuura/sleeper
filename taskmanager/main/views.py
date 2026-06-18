@@ -1,13 +1,27 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
-from django.http import HttpResponse
+from .models import SleepDiary
+from .forms import UserRegisterForm, SleepDiaryForm
 
 def home(request):
     """Главная страница"""
     return render(request, 'main/home.html')
 
 def register(request):
-    return HttpResponse("Страница регистрации")
+    """Регистрация"""
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Регистрация успешна!')
+            return redirect('main:home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'main/register.html', {'form': form})
 
 def diary(request):
     return HttpResponse("Дневник сна")
