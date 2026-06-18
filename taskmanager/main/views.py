@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def home(request):
-    return HttpResponse("Добро пожаловать в Sleeper!")
+    """Главная страница"""
+    return render(request, 'main/home.html')
 
 def register(request):
     return HttpResponse("Страница регистрации")
