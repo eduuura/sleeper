@@ -121,3 +121,11 @@ STATIC_URL = 'static/'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# API Яндекс Погоды
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+YANDEX_API_KEY = os.getenv('YANDEX_API_KEY', '')

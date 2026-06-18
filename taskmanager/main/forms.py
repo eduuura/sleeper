@@ -62,3 +62,19 @@ class SleepDiaryForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = field.widget.attrs.get('class', '') + ' form-control'
+
+class UserProfileForm(forms.ModelForm):
+    """Форма для редактирования профиля пользователя"""
+
+    class Meta:
+        model = UserProfile
+        fields = ['city', 'birth_date']
+        widgets = {
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш город'}),
+            'birth_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = field.widget.attrs.get('class', '') + ' form-control'

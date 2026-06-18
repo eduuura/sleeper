@@ -5,19 +5,19 @@
 {% block content %}
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <h2>🔐 Вход в систему</h2>
+        <h2><i class="fas fa-sign-in-alt"></i> Вход в систему</h2>
         <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="username" class="form-label">Имя пользователя</label>
+                <label for="username" class="form-label"><i class="fas fa-user"></i> Имя пользователя</label>
                 <input type="text" name="username" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Пароль</label>
+                <label for="password" class="form-label"><i class="fas fa-lock"></i> Пароль</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Войти</button>
-            <a href="{% url 'main:register' %}" class="btn btn-outline-secondary">Регистрация</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Войти</button>
+            <a href="{% url 'main:register' %}" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Регистрация</a>
         </form>
     </div>
 </div>

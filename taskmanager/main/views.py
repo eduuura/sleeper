@@ -6,8 +6,10 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Avg, Count, Min, Max
 from django.http import HttpResponse
 from .models import SleepDiary
-from .forms import UserRegisterForm, SleepDiaryForm
+from .forms import UserRegisterForm, SleepDiaryForm, UserProfileForm
 import pandas as pd
+from .services import WeatherService
+
 
 
 def home(request):
@@ -65,12 +67,29 @@ def add_record(request):
             record = form.save(commit=False)
             record.user = request.user
             record.save()
-            messages.success(request, 'Запись о сне добавлена!')
+
+            # Получаем погоду
+            city = request.user.profile.city
+            weather_data = WeatherService.get_weather(city)
+
+            if weather_data:
+                from .models import Statistics
+                Statistics.objects.create(
+                    sleep_record=record,
+                    pressure=weather_data['pressure'],
+                    humidity=weather_data['humidity'],
+                    temperature=weather_data['temperature'],
+                    moon_phase=weather_data['moon_phase'],
+                    weather_condition=weather_data['condition'],
+                )
+                messages.success(request, '✅ Запись добавлена с погодными данными!')
+            else:
+                messages.warning(request, f'⚠️ Не удалось получить погоду для города "{city}"')
+
             return redirect('main:diary')
     else:
         form = SleepDiaryForm()
     return render(request, 'main/add_record.html', {'form': form})
-
 
 @login_required
 def edit_record(request, pk):
@@ -166,4 +185,25 @@ def analytics(request):
         'stats': stats,
         'record_data': record_data,
         'total_records': total_records,
+    })
+
+
+@login_required
+def profile(request):
+    """Профиль пользователя - редактирование"""
+    profile_obj = request.user.profile
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile_obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Профиль обновлён!')
+            return redirect('main:profile')
+    else:
+        form = UserProfileForm(instance=profile_obj)
+
+    return render(request, 'main/profile.html', {
+        'form': form,
+        'user': request.user,
+        'profile': profile_obj,
     })

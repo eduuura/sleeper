@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8 mx-auto">
-        <h2>➕ Добавить запись о сне</h2>
+        <h2><i class="fas fa-plus-circle"></i> Добавить запись о сне</h2>
         <form method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -17,8 +17,8 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="{% url 'main:diary' %}" class="btn btn-secondary">Отмена</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+            <a href="{% url 'main:diary' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Отмена</a>
         </form>
     </div>
 </div>
