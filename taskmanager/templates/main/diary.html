@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Дневник сна{% endblock %}
+
+{% block content %}
+<h2>📖 Дневник сна</h2>
+
+{% if records %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Длительность</th>
+                <th>Качество</th>
+                <th>Давление</th>
+                <th>Температура</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.duration_hours }} ч</td>
+                    <td>{{ record.get_sleep_quality_display }}</td>
+                    <td>{{ record.weather.pressure|default:"—" }}</td>
+                    <td>{{ record.weather.temperature|default:"—" }}°C</td>
+                    <td>
+                        <a href="{% url 'main:edit_record' record.id %}" class="btn btn-sm btn-warning">✏️</a>
+                        <a href="{% url 'main:delete_record' record.id %}" class="btn btn-sm btn-danger">🗑️</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас пока нет записей о сне. <a href="{% url 'main:add_record' %}">Добавьте первую!</a></p>
+{% endif %}
+{% endblock %}

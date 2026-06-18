@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Аналитика{% endblock %}
+
+{% block content %}
+<h2>📊 Аналитика сна</h2>
+
+{% if records %}
+    <p>Всего записей: {{ records.count }}</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Качество</th>
+                <th>Длительность</th>
+                <th>Давление</th>
+                <th>Температура</th>
+                <th>Фаза Луны</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.get_sleep_quality_display }}</td>
+                    <td>{{ record.duration_hours }} ч</td>
+                    <td>{{ record.weather.pressure|default:"—" }}</td>
+                    <td>{{ record.weather.temperature|default:"—" }}°C</td>
+                    <td>{{ record.weather.moon_phase|default:"—" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас пока нет записей для анализа. <a href="{% url 'main:add_record' %}">Добавьте первую!</a></p>
+{% endif %}
+{% endblock %}
