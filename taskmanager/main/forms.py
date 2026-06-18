@@ -6,7 +6,6 @@ from .models import SleepDiary, UserProfile
 
 
 class UserRegisterForm(UserCreationForm):
-    """Форма регистрации пользователя"""
     email = forms.EmailField(required=True, label='Email')
     city = forms.CharField(max_length=100, required=True, label='Город')
     birth_date = forms.DateField(
@@ -45,8 +44,6 @@ class UserRegisterForm(UserCreationForm):
 
 
 class SleepDiaryForm(forms.ModelForm):
-    """Форма для добавления записи о сне"""
-
     class Meta:
         model = SleepDiary
         fields = ['date', 'bedtime', 'wake_time', 'sleep_quality', 'notes']
@@ -64,8 +61,6 @@ class SleepDiaryForm(forms.ModelForm):
             field.widget.attrs['class'] = field.widget.attrs.get('class', '') + ' form-control'
 
 class UserProfileForm(forms.ModelForm):
-    """Форма для редактирования профиля пользователя"""
-
     class Meta:
         model = UserProfile
         fields = ['city', 'birth_date']

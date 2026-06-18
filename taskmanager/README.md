@@ -12,13 +12,13 @@
  - **Database:** SQLite (Dev)
 
 ## Интерфейс
-**1. Главная страница:** ![img.png](img.png) 
-**2. Вход:** ![img_6.png](img_6.png)
-**3. Регистрация:**![img_7.png](img_7.png)
-**4. Профиль пользователя:** ![img_1.png](img_1.png)
-**5. Дневник сна:** ![img_3.png](img_3.png)
-**6. Добавление записи:** ![img_4.png](img_4.png)
-**7. Аналитика сна:**![img_5.png](img_5.png)
+**1. Главная страница:** ![img.png](templates/scrinshoot/img.png) 
+**2. Вход:** ![img_6.png](templates/scrinshoot/img_6.png)
+**3. Регистрация:**![img_7.png](templates/scrinshoot/img_7.png)
+**4. Профиль пользователя:** ![img_1.png](templates/scrinshoot/img_1.png)
+**5. Дневник сна:** ![img_3.png](templates/scrinshoot/img_3.png)
+**6. Добавление записи:** ![img_4.png](templates/scrinshoot/img_4.png)
+**7. Аналитика сна:**![img_5.png](templates/scrinshoot/img_5.png)
 
 ## Как запустить проект локально:
 

@@ -13,12 +13,10 @@ from .services import WeatherService
 
 
 def home(request):
-    """Главная страница"""
     return render(request, 'main/home.html')
 
 
 def register(request):
-    """Регистрация"""
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -32,7 +30,6 @@ def register(request):
 
 
 class CustomLoginView(LoginView):
-    """Вход в систему"""
     template_name = 'main/login.html'
     redirect_authenticated_user = True
 
@@ -42,7 +39,6 @@ class CustomLoginView(LoginView):
 
 @login_required
 def diary(request):
-    """Дневник сна"""
     records = SleepDiary.objects.filter(user=request.user).select_related('weather')
 
     quality = request.GET.get('quality')
@@ -60,7 +56,6 @@ def diary(request):
 
 @login_required
 def add_record(request):
-    """Запись в дневник сна"""
     if request.method == 'POST':
         form = SleepDiaryForm(request.POST)
         if form.is_valid():
@@ -68,7 +63,6 @@ def add_record(request):
             record.user = request.user
             record.save()
 
-            # Получаем погоду
             city = request.user.profile.city
             weather_data = WeatherService.get_weather(city)
 
@@ -93,7 +87,6 @@ def add_record(request):
 
 @login_required
 def edit_record(request, pk):
-    """Редактирование записи"""
     record = get_object_or_404(SleepDiary, pk=pk, user=request.user)
 
     if request.method == 'POST':
@@ -110,7 +103,6 @@ def edit_record(request, pk):
 
 @login_required
 def delete_record(request, pk):
-    """Удаление записи"""
     record = get_object_or_404(SleepDiary, pk=pk, user=request.user)
 
     if request.method == 'POST':
@@ -123,7 +115,6 @@ def delete_record(request, pk):
 
 @login_required
 def analytics(request):
-    """Страница аналитики"""
     from django.db.models import Avg, Count, Min, Max
     from .models import SleepDiary
     import pandas as pd
@@ -148,18 +139,17 @@ def analytics(request):
         stats['best_quality'] = records.aggregate(Max('sleep_quality'))['sleep_quality__max'] or 0
         stats['worst_quality'] = records.aggregate(Min('sleep_quality'))['sleep_quality__min'] or 0
 
-        #Срдлительность
         durations = [r.duration_hours for r in records if r.duration_hours]
         stats['avg_duration'] = round(sum(durations) / len(durations), 1) if durations else 0
 
-        #Статистика
+
         weather_records = [r.weather for r in records if hasattr(r, 'weather')]
         if weather_records:
             stats['avg_pressure'] = round(sum(w.pressure for w in weather_records) / len(weather_records), 1)
             stats['avg_temperature'] = round(sum(w.temperature for w in weather_records) / len(weather_records), 1)
             stats['avg_humidity'] = round(sum(w.humidity for w in weather_records) / len(weather_records), 1)
 
-            #Корреляция
+
             if len(weather_records) >= 3:
                 df = pd.DataFrame([
                     {'pressure': w.pressure, 'quality': w.sleep_record.sleep_quality}
@@ -168,7 +158,7 @@ def analytics(request):
                 corr = df['pressure'].corr(df['quality'])
                 stats['correlation'] = round(corr, 2) if not pd.isna(corr) else None
 
-    #Данные
+
     record_data = []
     for record in records.order_by('-date'):
         record_data.append({
@@ -190,7 +180,6 @@ def analytics(request):
 
 @login_required
 def profile(request):
-    """Профиль пользователя - редактирование"""
     profile_obj = request.user.profile
 
     if request.method == 'POST':

@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    """Профиль пользователя"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     city = models.CharField('Город', max_length=100)
     birth_date = models.DateField('Дата рождения', null=True, blank=True)
@@ -13,7 +12,6 @@ class UserProfile(models.Model):
 
 
 class SleepDiary(models.Model):
-    """Дневник сна"""
     QUALITY_CHOICES = [
         (1, '⭐ Ужасно'),
         (2, '⭐⭐ Плохо'),
@@ -35,7 +33,6 @@ class SleepDiary(models.Model):
 
     @property
     def duration_hours(self):
-        """Длительность сна"""
         if self.bedtime and self.wake_time:
             delta = self.wake_time - self.bedtime
             return round(delta.total_seconds() / 3600, 1)
@@ -43,7 +40,6 @@ class SleepDiary(models.Model):
 
 
 class Statistics(models.Model):
-    """Метеоданные"""
     sleep_record = models.OneToOneField(
         SleepDiary,
         on_delete=models.CASCADE,

@@ -3,15 +3,11 @@ from django.conf import settings
 
 
 class WeatherService:
-    """Сервис для работы с API Яндекс Погоды"""
 
     BASE_URL = 'https://api.weather.yandex.ru/v2/forecast'
 
     @staticmethod
     def get_coordinates(city):
-        """Получение координат (словарь + OpenStreetMap)"""
-
-        # Словарь популярных городов
         CITIES = {
             'москва': (55.7558, 37.6173),
             'moscow': (55.7558, 37.6173),
@@ -29,7 +25,6 @@ class WeatherService:
         if city_lower in CITIES:
             return CITIES[city_lower]
 
-        # Пробуем OpenStreetMap
         url = 'https://nominatim.openstreetmap.org/search'
         params = {'q': city, 'format': 'json', 'limit': 1}
 
@@ -45,7 +40,6 @@ class WeatherService:
 
     @staticmethod
     def get_weather(city):
-        """Получение погоды по городу"""
         if not settings.YANDEX_API_KEY:
             return None
 

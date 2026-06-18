@@ -122,7 +122,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# API Яндекс Погоды
+#API
 import os
 from dotenv import load_dotenv
 

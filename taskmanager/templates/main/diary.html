@@ -5,7 +5,6 @@
 {% block content %}
 <h2><i class="fas fa-book"></i> Дневник сна</h2>
 
-<!-- Оценка качества сна -->
 <div class="row mb-3">
     <div class="col-md-4">
         <form method="get" class="d-flex">
@@ -26,7 +25,6 @@
     </div>
 </div>
 
-<!-- Таблица с записями -->
 {% if records %}
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -35,7 +33,7 @@
                     <th><i class="fas fa-calendar-alt"></i> Дата</th>
                     <th><i class="fas fa-clock"></i> Длительность</th>
                     <th><i class="fas fa-star"></i> Качество</th>
-                    <th><i class="fas fa-tachometer-alt"></i> Давление</th>
+                    <th><i class="fas fa-tachometer-alt"></i> Атмосферное давление</th>
                     <th><i class="fas fa-tint"></i> Влажность</th>
                     <th><i class="fas fa-thermometer-half"></i> Температура</th>
                     <th><i class="fas fa-moon"></i> Фаза Луны</th>
@@ -62,7 +60,6 @@
         </table>
     </div>
 
-    <!-- Статистика -->
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title"><i class="fas fa-chart-simple"></i> Краткая статистика</h5>

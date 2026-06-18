@@ -11,7 +11,7 @@
 
         {% if user.is_authenticated %}
             <a href="{% url 'main:add_record' %}" class="btn btn-primary btn-lg"><i class="fas fa-plus-circle"></i> Добавить запись о сне</a>
-            <a href="{% url 'main:analytics' %}" class="btn btn-success btn-lg"><i class="fas fa-chart-bar"></i> Посмотреть статистику</a>
+            <a href="{% url 'main:analytics' %}" class="btn btn-success btn-lg"><i class="fas fa-chart-bar"></i> Посмотреть аналитику</a>
         {% else %}
             <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Начать</a>
             <a href="{% url 'main:login' %}" class="btn btn-outline-secondary btn-lg"><i class="fas fa-sign-in-alt"></i> Войти</a>
